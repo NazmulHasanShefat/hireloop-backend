@@ -1,7 +1,9 @@
 const express = require("express");
 const { createNewJob, getCompanyJobs, getRecruiterJobs, getJobs, getJobDetail } = require("../controllers/jobs.js");
 const { createCompany, getRecruiterCompany } = require("../controllers/companys.js");
+const { postJobApplication, getApplicationsByApplicant } = require("../controllers/application.js");
 const appRouter = express.Router();
+
 appRouter.post("/create-new-job", createNewJob);
 appRouter.get("/companyjob", getCompanyJobs);
 appRouter.post("/createcompany", createCompany);
@@ -9,4 +11,6 @@ appRouter.get("/recruiter-company", getRecruiterCompany);
 appRouter.get("/get-recruiter-jobs", getRecruiterJobs);
 appRouter.get("/jobs", getJobs);
 appRouter.get("/jobdetail/:id",getJobDetail);
+appRouter.post("/postjobApplication", postJobApplication)
+appRouter.get("/getjobApplicationByApplicant", getApplicationsByApplicant)
 module.exports = { appRouter }
