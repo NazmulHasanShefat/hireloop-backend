@@ -1,3 +1,4 @@
+const { ObjectId } = require("mongodb");
 const { getCollection } = require("../db/dbConnect")
 
 const CreateSubscription = async (req, res)=>{
@@ -10,12 +11,13 @@ const CreateSubscription = async (req, res)=>{
     try {
         const subscriptionsCollection = await getCollection("subscriptions");
         const userCollection = await getCollection("user")
+        const checkduplicate = await subscriptionsCollection.createIndex({ email: 1 }, { unique: true });
         const result = await subscriptionsCollection.insertOne(newSubscription);
         // update the user plan information
         const filter = {email: data.email};
         const updatedDocument = {
             $set:{
-                plan: data?.planId
+                plan: data?.PricingId
             }
         }
         const updateResult = await userCollection.updateOne(filter, updatedDocument)
