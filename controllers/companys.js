@@ -2,8 +2,12 @@ const { getCollection } = require("../db/dbConnect.js");
 
 const createCompany = async (req, res) => {
   const companyInfo = req.body;
+  const newCompany = {
+    ...companyInfo,
+    createdAt: new Date()
+  }
   const companyCollection = await getCollection("companys");
-  const result = await companyCollection.insertOne(companyInfo);
+  const result = await companyCollection.insertOne(newCompany);
   return res.json(result);
 };
 const getRecruiterCompany = async (req, res) => {
