@@ -9,7 +9,7 @@ const createNewJob = async (req, res) => {
   };
   const jobCollection = await getCollection("jobs");
   const result = await jobCollection.insertOne(newJob);
- return res.json(result);
+  return res.json(result);
 };
 const getCompanyJobs = async (req, res) => {
   const query = {};
@@ -21,41 +21,89 @@ const getCompanyJobs = async (req, res) => {
   }
   const jobCollection = await getCollection("jobs");
   const result = await jobCollection.find(query).toArray();
- return res.json(result);
+  return res.json(result);
 };
 const getJobs = async (req, res) => {
   try {
     const jobCollection = await getCollection("jobs");
+
     const result = await jobCollection.find().toArray();
-   return res.json(result);
+    return res.json(result);
   } catch (error) {
     console.log(error);
   }
 };
+
 const getRecruiterJobs = async (req, res) => {
-    try {
-        const query = {};
-        if (req.query.recruiterId) {
-            query.recruiterId = req.query.recruiterId;
-        }
-        const jobsCollection = await getCollection("jobs");
-        const result = await jobsCollection.find(query).toArray();
-       return res.json(result);
-    } catch (error) {
-        console.log(error);
+  try {
+    const query = {};
+    if (req.query.recruiterId) {
+      query.recruiterId = req.query.recruiterId;
     }
+    const jobsCollection = await getCollection("jobs");
+    const result = await jobsCollection.find(query).toArray();
+    return res.json(result);
+  } catch (error) {
+    console.log(error);
+  }
 };
 
-const getJobDetail = async (req, res)=>{
+const getJobDetail = async (req, res) => {
   const id = req.params;
-   const query = { _id: new ObjectId(id) };
-    try {
-      const jobCollection = await getCollection("jobs");
-      const result = await jobCollection.findOne(query)
-     return res.json(result);
-    } catch (error) {
-      console.log(error)
-    }
-}
+  const query = { _id: new ObjectId(id) };
+  try {
+    const jobCollection = await getCollection("jobs");
+    const result = await jobCollection.findOne(query);
+    return res.json(result);
+  } catch (error) {
+    console.log(error);
+  }
+};
 
-module.exports = { createNewJob, getCompanyJobs, getRecruiterJobs, getJobs, getJobDetail };
+const getJobsWithLinit = async (req, res) => {
+  try {
+    const pipeline = [
+      {
+        $skip: 2,
+      },
+      {
+        $limit: 2,
+      },
+    ];
+    const jobCollection = await getCollection("jobs");
+
+    const result = await jobCollection.aggregate(pipeline).toArray();
+    return res.json(result);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+const jobGroup = async (req, res) => {
+  try {
+    const pipeline = [
+      {
+        $group: {
+          _id: "$jobType",
+           status: { $first: "$status" },
+        },
+      },
+      { $project: {jobType: "$_id", status: 1} }
+    ];
+    const jobCollection = await getCollection("jobs");
+    const result = await jobCollection.aggregate(pipeline).toArray();
+     res.json(result);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+module.exports = {
+  createNewJob,
+  getCompanyJobs,
+  getRecruiterJobs,
+  getJobs,
+  getJobDetail,
+  getJobsWithLinit,
+  jobGroup
+};

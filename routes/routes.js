@@ -1,5 +1,5 @@
 const express = require("express");
-const { createNewJob, getCompanyJobs, getRecruiterJobs, getJobs, getJobDetail } = require("../controllers/jobs.js");
+const { createNewJob, getCompanyJobs, getRecruiterJobs, getJobs, getJobDetail, getJobsWithLinit, jobGroup } = require("../controllers/jobs.js");
 const { createCompany, getRecruiterCompany, getAllCompanies, updateCompany } = require("../controllers/companys.js");
 const { postJobApplication, getApplicationsByApplicant } = require("../controllers/application.js");
 const { getPlans } = require("../controllers/plans.js");
@@ -21,5 +21,10 @@ appRouter.post("/subscription", CreateSubscription);
 appRouter.get("/users", getAllusers)
 appRouter.get("/companys", getAllCompanies)
 appRouter.patch("/update-company/:id", updateCompany)
+
+
+
+appRouter.get("/joblimit",getJobsWithLinit);
+appRouter.get("/jobgroup", jobGroup)
 
 module.exports = { appRouter }
