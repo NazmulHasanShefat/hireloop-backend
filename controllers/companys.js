@@ -39,6 +39,7 @@ const getAllCompanies = async (req, res)=>{
 const updateCompany = async (req, res)=>{
   const id = req.params.id;
   try {
+    
     const filter = {_id: new ObjectId(id)};
     const updateCompany = req.body;
     const updatedDocument = {
