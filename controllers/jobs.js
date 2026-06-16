@@ -9,7 +9,7 @@ const createNewJob = async (req, res) => {
   };
   const jobCollection = await getCollection("jobs");
   const result = await jobCollection.insertOne(newJob);
-  res.json(result);
+ return res.json(result);
 };
 const getCompanyJobs = async (req, res) => {
   const query = {};
@@ -21,15 +21,13 @@ const getCompanyJobs = async (req, res) => {
   }
   const jobCollection = await getCollection("jobs");
   const result = await jobCollection.find(query).toArray();
-  res.json(result);
+ return res.json(result);
 };
 const getJobs = async (req, res) => {
   try {
-    const query = {};
-
     const jobCollection = await getCollection("jobs");
     const result = await jobCollection.find().toArray();
-    res.json(result);
+   return res.json(result);
   } catch (error) {
     console.log(error);
   }
@@ -42,7 +40,7 @@ const getRecruiterJobs = async (req, res) => {
         }
         const jobsCollection = await getCollection("jobs");
         const result = await jobsCollection.find(query).toArray();
-        res.json(result);
+       return res.json(result);
     } catch (error) {
         console.log(error);
     }
@@ -54,7 +52,7 @@ const getJobDetail = async (req, res)=>{
     try {
       const jobCollection = await getCollection("jobs");
       const result = await jobCollection.findOne(query)
-      res.json(result);
+     return res.json(result);
     } catch (error) {
       console.log(error)
     }

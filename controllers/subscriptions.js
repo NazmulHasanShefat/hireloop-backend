@@ -21,7 +21,7 @@ const CreateSubscription = async (req, res)=>{
             }
         }
         const updateResult = await userCollection.updateOne(filter, updatedDocument)
-        res.json(updateResult);
+       return res.json(updateResult);
 
     } catch (error) {
         console.log(error)

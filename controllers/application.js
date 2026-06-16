@@ -9,7 +9,7 @@ const postJobApplication = async (req, res) => {
   try {
     const applicationCollection = await getCollection("applicatios");
     const result = await applicationCollection.insertOne(newApplication);
-    res.json(result);
+   return res.json(result);
   } catch (error) {
     console.log(error);
   }
@@ -26,7 +26,7 @@ const getApplicationsByApplicant = async (req, res) => {
   try {
     const applicationCollection = await getCollection("applicatios");
     const result = await applicationCollection.find(query).toArray();
-    res.json(result)
+   return res.json(result)
   } catch (error) {
     console.log(error);
   }
