@@ -17,6 +17,9 @@ const verifyToken = async (req, res, next) => {
     const query = { token: token };
     const sessionCollection = await getCollection("session");
     const session = await sessionCollection.findOne(query);
+     if (!session) {
+      return res.status(401).json({ message: "unAuthorized access denied" });
+    }
     // console.log(session)
     const userId = session?.userId;
     const userQuery = {
@@ -24,6 +27,9 @@ const verifyToken = async (req, res, next) => {
     };
     const userCollection = await getCollection("user");
     const user = await userCollection.findOne(userQuery);
+       if (!user) {
+      return res.status(401).json({ message: "unAuthorized access denied" });
+    }
     //  set data in the request object
     req.user = user;
     next();

@@ -19,7 +19,7 @@ appRouter.post("/postjobApplication", postJobApplication);
 appRouter.get("/getjobApplicationByApplicant", verifyToken, verifySeeker, getApplicationsByApplicant);
 appRouter.get("/plans",getPlans);
 appRouter.post("/subscription", CreateSubscription);
-appRouter.get("/users", getAllusers)
+appRouter.get("/users", verifyToken, verifyAdmin, getAllusers)
 appRouter.get("/companys", verifyToken, verifyAdmin, getAllCompanies)
 appRouter.patch("/update-company/:id", verifyToken, verifyAdmin, updateCompany)
 
